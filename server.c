@@ -30,7 +30,7 @@ struct pthread_ev {
 
 extern int opterr;
 
-void log_info(char *msg) {
+/*void log_info(char *msg) {
     static FILE *f_log = NULL;
     if (f_log == NULL) {
         f_log = fopen("info.log", "w");
@@ -58,7 +58,7 @@ void log_info(char *msg) {
     fprintf(f_log, msg);
     fprintf(f_log, "\"\n");
     fflush(f_log);
-}
+}*/
 
 int parse_cli_args(int argc, char *const argv[], char **ip, int *port, char **dir) {
     int opt;
@@ -100,15 +100,15 @@ int start_socket(char *ip, int port) {
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
     if (inet_aton(ip, &addr.sin_addr) == 0)  {
-        perror("inet_aton");
+        //perror("inet_aton");
         exit(EXIT_FAILURE);
     }
     if (bind(sd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-        perror("bind");
+        //perror("bind");
         exit(EXIT_FAILURE);
     }
     if (listen(sd, SOMAXCONN) == -1) {
-        perror("listen");
+       // perror("listen");
         exit(EXIT_FAILURE);
     }
 
@@ -217,7 +217,7 @@ void read_client_cb(struct ev_loop *loop, struct ev_io *watcher, int revents) {
     //log_info(log_msg);
 
     if (read_len == -1) {
-        perror("recv");
+        //perror("recv");
         exit(EXIT_FAILURE);
     } else if (read_len == 0) {
         ev_io_stop(loop, &w->io);
@@ -249,7 +249,7 @@ void read_client_cb(struct ev_loop *loop, struct ev_io *watcher, int revents) {
             (void *)pth_ev
         ) == -1
     ) {
-        perror("pthred_create");
+        //perror("pthred_create");
         exit(EXIT_FAILURE);
     }
 
@@ -297,15 +297,15 @@ void start_server(char *ip, int port, char *root_dir) {
 void daemonize() {
     pid_t pid = fork();
     if (pid < 0) {
-        perror("fork");
+        //perror("fork");
         exit(EXIT_FAILURE);
     }
     if (pid > 0) {
-        printf("new pid server: %d\n", pid);
+        //printf("new pid server: %d\n", pid);
         exit(EXIT_SUCCESS);
     }
     if (setsid() == -1) {
-        perror("setsid");
+       // perror("setsid");
         exit(EXIT_FAILURE);
     }
     close(STDIN_FILENO);
@@ -319,7 +319,7 @@ int main(int argc, char *const argv[]) {
     char *dir;
 
     if (parse_cli_args(argc, argv, &ip, &port, &dir) != 0) {
-        printf("Invalid args\n");
+        //printf("Invalid args\n");
         exit(EXIT_FAILURE);
     }
 

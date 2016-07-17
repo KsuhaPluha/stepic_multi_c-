@@ -1,5 +1,8 @@
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 cmake_minimum_required(VERSION 2.8)
 project (final)
 find_package (Threads)
+find_package(Libev REQUIRED)
+include_directories(${LIBEV_INCLUDE_DIR})
 add_executable(final server.c)
 target_link_libraries(final ev ${CMAKE_THREAD_LIBS_INIT})

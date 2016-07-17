@@ -212,9 +212,9 @@ void read_client_cb(struct ev_loop *loop, struct ev_io *watcher, int revents) {
     // TODO: use buffered recv
     int read_len = recv(w->io.fd, &buf_in, CLIENT_BUF_IN_SIZE, MSG_NOSIGNAL);
 
-    char log_msg[128];
-    sprintf(log_msg, "recv: %d bytes", read_len);
-    log_info(log_msg);
+    //char log_msg[128];
+    //sprintf(log_msg, "recv: %d bytes", read_len);
+    //log_info(log_msg);
 
     if (read_len == -1) {
         perror("recv");
@@ -325,9 +325,9 @@ int main(int argc, char *const argv[]) {
 
     daemonize();
 
-    char log_msg[256];
-    sprintf(log_msg, "Server will be run with params: host %s; port %d; dir %s", ip, port, dir);
-    log_info(log_msg);
+    //char log_msg[256];
+    //(log_msg, "Server will be run with params: host %s; port %d; dir %s", ip, port, dir);
+    ///(log_msg);
 
     start_server(ip, port, dir);
 
